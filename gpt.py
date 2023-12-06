@@ -12,12 +12,26 @@ def askgpt (messages):
 
 if __name__ == "__main__":
     messages = [{"role":"system","content":"Du bist ein Businessplanersteller."}]
-    text_pdf = pdf.main()
-    messages += [{"role":"user","content":"Hier ist die Vorlage die du befüllen sollst: \n"+text_pdf+ "\n Stelle mir soviele Fragen wie du benötigst um den bestmöglichen Businessplan für mein Unternehmen zu erstellen."}]
+    a_pdf = pdf.main()
+    #with open ("/Users/evangelosntoumpas/code/Businessplan-AI/DATA/Vorlage.txt","r") as f:
+        #b_pdf = f.read()
+    #with open ("/Users/evangelosntoumpas/code/Businessplan-AI/DATA/Vorlage.txt","r") as f:
+        #c_pdf = f.read()
+
+    with open ("/Users/evangelosntoumpas/code/Businessplan-AI/DATA/Vorlage.txt","r") as f:
+        text_pdf = f.read()
+    with open ("/Users/evangelosntoumpas/code/Businessplan-AI/DATA/Informationen.txt","r") as f:
+        infos_pdf = f.read()
+    #messages += [{"role":"user","content":"Hier sind einige Fragen \n"+text_pdf+" und dazugehörige Informationen \n"+infos_pdf+"& \n"+a_pdf+b_pdf+c_pdf+"+die dir helfen sollen den Businessplan zu erstellen. Erstell mir einen optimalen Businessplan. Solltest du noch fragen haben so schreibe mir eine Liste die ich dir beantworten soll."}]
+    messages += [{"role":"user","content":"Hier sind einige Fragen \n"+text_pdf+" und dazugehörige Informationen \n"+infos_pdf+"& \n"+a_pdf+"+die dir helfen sollen den Businessplan zu erstellen. Erstell mir einen optimalen Businessplan. Solltest du noch fragen haben so schreibe mir eine Liste die ich dir beantworten soll."}]
+    index = 0
     while True:
         temp = askgpt(messages)
         messages += [{"role":"assistant","content":temp}]
         print(temp)
+        with open ("result"+str(index)+".txt","w") as f:
+            f.write(temp)
+            index+=1
         i = input("Eingabe: \n") 
         messages += [{"role":"user","content":i}]
 """
